@@ -1,0 +1,8 @@
+contract Resolver = 
+  record state = {domains : map(string, string)}
+  entrypoint init() : state = {domains = {["fdsa.test"] = "1.1.1.1"}}
+  function read(domain : string) : string = state.domains[domain]
+  function listdomains() : list((string*string)) = Map.to_list(state.domains)
+  stateful function update(domain: string, pointer: string) = put(state{domains[domain] = pointer})
+  stateful function del(domain: string) = put(state{domains=Map.delete(domain, state.domains)})
+  
